@@ -36,6 +36,12 @@ class Customer(models.Model):
     birth_date = models.DateField(null=True)
     membership = models.CharField(max_length=1,choices=MEMBERSHIP_CHOICES,default=MEMBERSHIP_BRONZE)
 
+    # class Meta:
+    #     db_table = 'store_customers'
+    #     indexes = [
+    #         models.Index(fields=['last_name','first_name'])
+    #     ]
+
 class Order(models.Model):
     PAYMENT_STATUS_PENDING = 'P'
     PAYMENT_STATUS_CREATED = 'c'
@@ -49,6 +55,7 @@ class Order(models.Model):
     payment_status=models.CharField(max_length=1,choices=PAYMENT_STATUS_CHOICES,default=PAYMENT_STATUS_PENDING)
     customer = models.ForeignKey(Customer,on_delete=models.PROTECT)
 
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order,on_delete=models.PROTECT)
     product = models.ForeignKey(Product,on_delete=models.PROTECT)
@@ -57,6 +64,7 @@ class OrderItem(models.Model):
 
 class Address(models.Model):
     street=models.CharField(max_length=255)
+    # zip = models.CharField(max_length=255)
     city=models.CharField(max_length=255)
     customer=models.OneToOneField(Customer,on_delete=models.CASCADE,primary_key=True)
 
